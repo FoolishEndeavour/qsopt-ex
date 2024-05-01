@@ -142,32 +142,32 @@ static int mem_limits(void)
 	fprintf(stderr, "New rtime limit %llu (%.3lg)\n", mlim.rlim_cur, max_rtime);
 	rval = getrlimit(RLIMIT_DATA,&mlim);
 	TESTERRNOIF(rval);
-	fprintf(stderr, "Cur data limit %llu,%ld (soft,hard)\n", mlim.rlim_cur, 
+	fprintf(stderr, "Cur data limit %llu,%llu (soft,hard)\n", mlim.rlim_cur, 
 					mlim.rlim_max);
 	mlim.rlim_cur = memlimit;				
 	rval = setrlimit(RLIMIT_DATA,&mlim);				
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_DATA,&mlim);
 	TESTERRNOIF(rval);
-	fprintf(stderr, "New data limit %llu,%ld (soft,hard)\n", mlim.rlim_cur, 
+	fprintf(stderr, "New data limit %llu,%llu (soft,hard)\n", mlim.rlim_cur, 
 					mlim.rlim_max);
 	rval = getrlimit(RLIMIT_AS,&mlim);
 	TESTERRNOIF(rval);
-	fprintf(stderr, "Cur address space limit %llu,%ld (soft,hard)\n", 
+	fprintf(stderr, "Cur address space limit %llu,%llu (soft,hard)\n", 
 					mlim.rlim_cur, mlim.rlim_max);
 	mlim.rlim_cur = memlimit;	
 	rval = setrlimit(RLIMIT_AS,&mlim);				
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_AS,&mlim);
 	TESTERRNOIF(rval);
-	fprintf(stderr, "New address space limit %llu,%ld (soft,hard)\n", 
+	fprintf(stderr, "New address space limit %llu,%llu (soft,hard)\n", 
 					mlim.rlim_cur, mlim.rlim_max);
 	mlim.rlim_cur = 0;
 	rval = setrlimit(RLIMIT_CORE,&mlim);				
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_CORE,&mlim);
 	TESTERRNOIF(rval);
-	fprintf(stderr, "New core dump space limit %llu,%ld (soft,hard)\n", 
+	fprintf(stderr, "New core dump space limit %llu,%llu (soft,hard)\n", 
 					mlim.rlim_cur, mlim.rlim_max);
 	/* set signal handler for SIGXCPU */
 	signal(SIGXCPU,sighandler);
