@@ -4,6 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 # These source files are used as is for the library
 MAIN_SOURCE_FILES = \
 	qsopt_ex/allocrus.c \
+	qsopt_ex/autoconf_malloc_replacement.c \
 	qsopt_ex/bgetopt.c \
 	qsopt_ex/eg_io.c \
 	qsopt_ex/eg_lpnum.c \
