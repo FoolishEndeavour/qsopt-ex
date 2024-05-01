@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.69)
-AC_INIT([QSopt_ex], [2.5.10.3], [https://github.com/jonls/qsopt-ex/issues])
+AC_PREREQ([2.72])
+AC_INIT([QSopt_ex],[2.5.10.3],[https://github.com/FoolishEndeavour/qsopt-ex/issues])
 AC_CONFIG_SRCDIR([qsopt_ex/QSopt_ex.h])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -79,8 +79,12 @@ AC_SEARCH_LIBS([pow], [m], [], [
 AC_CHECK_LIB([pthread], [pthread_mutex_lock])
 
 ### Checks for header files.
-AC_HEADER_STDC
-AC_HEADER_TIME
+# Autoupdate added the next two lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
+
+AC_CHECK_HEADERS_ONCE([sys/time.h])
 AC_CHECK_HEADERS([errno.h float.h getopt.h inttypes.h limits.h math.h setjmp.h signal.h stdarg.h stdint.h stdio.h string.h sys/param.h sys/resource.h sys/time.h sys/times.h sys/utsname.h unistd.h])
 
 ### Checks for typedefs, structures, and compiler characteristics.
@@ -90,7 +94,6 @@ AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
 AC_TYPE_INT8_T
-AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_TYPE_UINT16_T
