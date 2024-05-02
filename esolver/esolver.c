@@ -133,6 +133,7 @@ static void sighandler(int s)
 static int mem_limits(void)
 {
 	int rval = 0;
+#ifdef HAVE_SYS_RESOURCE_H
 	struct rlimit mlim;
 	rval = getrlimit(RLIMIT_CPU,&mlim);
 	CHECKRVAL(rval);
@@ -171,10 +172,12 @@ static int mem_limits(void)
 	TESTERRNOIF(rval);
 	fprintf(stderr, "New core dump space limit %llu,%llu (soft,hard)\n", 
 					mlim.rlim_cur, mlim.rlim_max);
+#endif
 	/* set signal handler for SIGXCPU */
 	signal(SIGXCPU,sighandler);
 	return rval;
 }
+
 /* ========================================================================= */
 /** @brief parssing options for the program */
 static int parseargs (int ac,
@@ -190,10 +193,18 @@ static int parseargs (int ac,
 		switch (c)
 		{
 		case 'm':
+#ifdef HAVE_SYS_RESOURCE_H
 			memlimit = strtoul(boptarg,0,10);
+#else
+			fprintf (stderr, "Resource limits ignored on this platform.\n");
+#endif
 			break;
 		case 'R':
+#ifdef HAVE_SYS_RESOURCE_H
 			max_rtime = strtod(boptarg,0);
+#else
+			fprintf (stderr, "Resource limits ignored on this platform.\n");
+#endif
 			break;
 		case 'b':
 			writebasis = boptarg;
