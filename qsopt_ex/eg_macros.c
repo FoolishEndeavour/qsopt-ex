@@ -28,7 +28,9 @@
 #include <setjmp.h>
 #include <signal.h>
 #include <sys/time.h>
-#include <sys/resource.h>
+#ifdef HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
 #include <sys/utsname.h>
 #include <sys/types.h>
 #include <unistd.h>

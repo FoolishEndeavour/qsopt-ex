@@ -51,7 +51,9 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/time.h>
-#include <sys/resource.h>
+#ifdef HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
 
 #include "eg_macros.h"
 
