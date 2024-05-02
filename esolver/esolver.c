@@ -31,8 +31,6 @@
 # include <sys/resource.h>
 #endif
 
-#define USE_LONGLONG_TIME (sizeof(rlim_t) == sizeof(unsigned long long))
-
 #include "QSopt_ex.h"
 
 #include "except.h"
@@ -139,41 +137,23 @@ static int mem_limits(void)
 	struct rlimit mlim;
 	rval = getrlimit(RLIMIT_CPU,&mlim);
 	CHECKRVAL(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "Cur rtime limit %llu, trying to set to %lg\n", mlim.rlim_cur, max_rtime);
-#else
-	fprintf(stderr, "Cur rtime limit %lu, trying to set to %lg\n", mlim.rlim_cur, max_rtime);
-#endif
+	fprintf(stderr, "Cur rtime limit %ju, trying to set to %lg\n", (uintmax_t)mlim.rlim_cur, max_rtime);
 	if(max_rtime > mlim.rlim_max) max_rtime = (double)mlim.rlim_max;
 	mlim.rlim_cur = (rlim_t)max_rtime;
 	rval = setrlimit(RLIMIT_CPU,&mlim);
 	TESTERRNOIF(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "New rtime limit %llu (%.3lg)\n", mlim.rlim_cur, max_rtime);
-#else
-	fprintf(stderr, "New rtime limit %lu (%.3lg)\n", mlim.rlim_cur, max_rtime);
-#endif
+	fprintf(stderr, "New rtime limit %ju (%.3lg)\n", (uintmax_t)mlim.rlim_cur, max_rtime);
 	rval = getrlimit(RLIMIT_DATA,&mlim);
 	TESTERRNOIF(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "Cur data limit %llu,%llu (soft,hard)\n", mlim.rlim_cur, 
-					mlim.rlim_max);
-#else
-	fprintf(stderr, "Cur data limit %lu,%lu (soft,hard)\n", mlim.rlim_cur, 
-					mlim.rlim_max);
-#endif
+	fprintf(stderr, "Cur data limit %ju,%ju (soft,hard)\n", (uintmax_t)mlim.rlim_cur, 
+					(uintmax_t)mlim.rlim_max);
 	mlim.rlim_cur = memlimit;				
 	rval = setrlimit(RLIMIT_DATA,&mlim);				
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_DATA,&mlim);
 	TESTERRNOIF(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "New data limit %llu,%llu (soft,hard)\n", mlim.rlim_cur, 
-					mlim.rlim_max);
-#else
-	fprintf(stderr, "New data limit %lu,%lu (soft,hard)\n", mlim.rlim_cur, 
-					mlim.rlim_max);
-#endif
+	fprintf(stderr, "New data limit %ju,%ju (soft,hard)\n", (uintmax_t)mlim.rlim_cur, 
+					(uintmax_t)mlim.rlim_max);
 	rval = getrlimit(RLIMIT_AS,&mlim);
 	TESTERRNOIF(rval);
 	fprintf(stderr, "Cur address space limit %llu,%llu (soft,hard)\n", 
@@ -183,25 +163,15 @@ static int mem_limits(void)
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_AS,&mlim);
 	TESTERRNOIF(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "New address space limit %llu,%llu (soft,hard)\n", 
-					mlim.rlim_cur, mlim.rlim_max);
-#else
-	fprintf(stderr, "New address space limit %lu,%lu (soft,hard)\n", 
-					mlim.rlim_cur, mlim.rlim_max);
-#endif
+	fprintf(stderr, "New address space limit %ju,%ju (soft,hard)\n", 
+					(uintmax_t)mlim.rlim_cur, (uintmax_t)mlim.rlim_max);
 	mlim.rlim_cur = 0;
 	rval = setrlimit(RLIMIT_CORE,&mlim);				
 	TESTERRNOIF(rval);
 	rval = getrlimit(RLIMIT_CORE,&mlim);
 	TESTERRNOIF(rval);
-#if USE_LONGLONG_TIME
-	fprintf(stderr, "New core dump space limit %llu,%llu (soft,hard)\n", 
-					mlim.rlim_cur, mlim.rlim_max);
-#else
-	fprintf(stderr, "New core dump space limit %lu,%lu (soft,hard)\n", 
-					mlim.rlim_cur, mlim.rlim_max);
-#endif
+	fprintf(stderr, "New core dump space limit %ju,%ju (soft,hard)\n", 
+					(uintmax_t)mlim.rlim_cur, (uintmax_t)mlim.rlim_max);
 #endif
 	/* set signal handler for SIGXCPU */
 	signal(SIGXCPU,sighandler);
