@@ -490,13 +490,13 @@ EGioFile_t* EGioOpen(const char *path, const char *mode)
 	if(len>3 && path[len-3] == '.' && path[len-2] == 'g' && path[len-1] == 'z')
 	{
 		file->type = EGIO_ZLIB;
-		if(index(mode,'b')) snprintf(lmode,7,"%s",mode);
+		if(strchr(mode,'b')) snprintf(lmode,7,"%s",mode);
 		else snprintf(lmode,7,"%s9b",mode);
 	}
 	else if(len>4 && path[len-4] == '.' && path[len-3] == 'b' && path[len-2] == 'z' && path[len-1] == '2')
 	{
 		file->type = EGIO_BZLIB;
-		if(index(mode,'b')) snprintf(lmode,7,"%s",mode);
+		if(strchr(mode,'b')) snprintf(lmode,7,"%s",mode);
 		else snprintf(lmode,7,"%sb",mode);
 	}
 	else 
